@@ -1,4 +1,4 @@
-package tasks.set0
+package tasks
 
 import tools.Solver
 

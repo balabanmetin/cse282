@@ -6,9 +6,14 @@ object Task7 extends Solver {
 
   import Solver._
 
+  //Compute the Hamming distance between two DNA strings.
+  def hamming(seq1: String, seq2: String): Int = {
+    seq1.zip(seq2).count(tpl => tpl._1 != tpl._2)
+  }
+
   override def solve(reader: Iterator[String]): Any = {
     val seq1 = reader.trimmedLine
     val seq2 = reader.trimmedLine
-    seq1.zip(seq2).count(tpl => tpl._1 != tpl._2)
+    hamming(seq1, seq2)
   }
 }

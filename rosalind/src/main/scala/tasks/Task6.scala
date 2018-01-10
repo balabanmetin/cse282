@@ -14,7 +14,6 @@ object Task6 extends Solver {
         case 'G' => (acc._1 :+ (acc._2 + 1), acc._2 + 1)
         case _ => (acc._1 :+ acc._2, acc._2)
       })._1.zipWithIndex
-    println("Checkpoint")
     indexed.filter(v => v._1 == indexed.min._1).map(_._2).mkString(" ")
   }
 }

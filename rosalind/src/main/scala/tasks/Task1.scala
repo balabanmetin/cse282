@@ -2,7 +2,7 @@ package tasks
 
 import tools.Solver
 
-object Task0 extends Solver {
+object Task1 extends Solver {
   import Solver._
 
   override def solve(reader: Iterator[String]): Any = {

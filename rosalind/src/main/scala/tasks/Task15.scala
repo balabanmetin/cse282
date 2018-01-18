@@ -1,15 +1,22 @@
 package tasks
 
-import tasks.Task9._
+import tasks.Task11._
+import tasks.Task7._
 import tools.Solver
 
-object Task14 extends Solver {
+object Task15
+  extends Solver {
 
   import Solver._
 
+  def medianString(dna: List[String], k:Int): String = {
+    val kmers = allkmers(k)
+    val scores = kmers.map(kmer => dna.map(s => s.sliding(k).map(hamming(_,kmer)).min).sum)
+    kmers.zip(scores).minBy(_._2)._1
+  }
   override def solve(reader: Iterator[String]): Any = {
-    val seq = reader.trimmedLine
     val k = reader.nextInt
-    generateDBall(seq,k).mkString("\n")
+    val dna = reader.map(_.trim).toList
+    medianString(dna, k)
   }
 }

@@ -6,6 +6,7 @@ object Task16 extends Solver {
 
   import Solver._
 
+  // not scalaic
   def patternProbability(pattern: String, profile: Array[Array[Double]]): Double = {
     (0 until pattern.length).map(i => profile(nucToNum(pattern(i)))(i)).product
   }

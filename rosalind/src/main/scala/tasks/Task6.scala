@@ -10,7 +10,7 @@ object Task6 extends Solver {
     val seq = reader.trimmedLine
     val indexed = seq.foldLeft(List(0))((acc, c) =>
       c match {
-        case 'C' => (acc.head - 1)  :: acc
+        case 'C' => (acc.head - 1) :: acc
         case 'G' => (acc.head + 1) :: acc
         case _ => acc.head :: acc
       }).reverse.zipWithIndex

@@ -8,8 +8,8 @@ object Task12 extends Solver {
 
   //Convert a DNA string to a number.
   def hash(seq: String): Long = {
-    seq.reverse.foldLeft((0L,0)){case ((acc,expon),c) =>
-      (acc+Math.pow(4,expon).toLong*nucToNum(c),expon+1)
+    seq.reverse.foldLeft((0L, 0)) { case ((acc, expon), c) =>
+      (acc + Math.pow(4, expon).toLong * nucToNum(c), expon + 1)
     }._1
   }
 

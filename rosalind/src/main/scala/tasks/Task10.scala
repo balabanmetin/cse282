@@ -21,7 +21,7 @@ object Task10 extends Solver {
 
   override def solve(reader: Iterator[String]): Any = {
     val seq = reader.trimmedLine
-    val Array(k,dist) = reader.nextIntArray
+    val Array(k, dist) = reader.nextIntArray
     mostFrequentWithMismatchesAndReverse(seq, k, dist).mkString(" ")
   }
 }

@@ -13,6 +13,7 @@ object Task5 extends Solver {
       val occuran = findOcc(seq, motif)
       occuran.sliding(t).exists(lst => (lst.size == t) && (lst.last - lst.head + 1) <= L)
     }
+
     seq.sliding(k).filter(motif => checkClumps(seq, motif, L, t)).toList.distinct
   }
 

@@ -10,6 +10,6 @@ object Task13 extends Solver {
   override def solve(reader: Iterator[String]): Any = {
     val seq = reader.trimmedLine
     val k = reader.nextInt
-    generateDBall(seq,k).mkString("\n")
+    generateDBall(seq, k).mkString("\n")
   }
 }

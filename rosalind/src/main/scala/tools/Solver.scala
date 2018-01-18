@@ -32,6 +32,8 @@ object Solver {
     def dist(p: FPoint) = sqrt(pow(x - p.x, 2) + pow(y - p.y, 2))
   }
 
+  val nucToNum = Map('A' -> 0, 'C' -> 1, 'G' -> 2, 'T' -> 3)
+
   class RichIterator(val iterator: Iterator[String]) {
 
     def trimmedLine = iterator.next().trim()
@@ -44,6 +46,7 @@ object Solver {
     def nextBigIntArray: Array[BigInt] = nextStringArray map (BigInt(_))
     def nextStringArray: Array[String] = trimmedLine split " "
     def nextIntGrid(y: Int): Array[Array[Int]] = (for (i <- 0 until y) yield nextIntArray).toArray
+    def nextDoubleGrid(y: Int): Array[Array[Double]] = (for (i <- 0 until y) yield nextDoubleArray).toArray
     def nextCharGrid(y: Int): Array[Array[Char]] = (for (i <- 0 until y) yield nextCharArray).toArray
 
     def skipLines(nr: Int) {

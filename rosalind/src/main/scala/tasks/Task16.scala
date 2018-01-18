@@ -2,20 +2,23 @@ package tasks
 
 import tools.Solver
 
-object Task22 extends Solver {
+object Task16 extends Solver {
 
   import Solver._
 
-  //Convert a number to a DNA string.
-  def unhash(i: Long, k: Int): String = {
-    val subtMap = Map('0' ->'A', '1' -> 'C', '2' -> 'G', '3' -> 'T')
-    val tail = java.lang.Long.toString(i, 4).map(subtMap(_))
-    "A"*(k - tail.length)+tail
+  def patternProbability(pattern: String, profile: Array[Array[Double]]): Double = {
+    (0 until pattern.length).map(i => profile(nucToNum(pattern(i)))(i)).product
+  }
+  // Find a Profile-most probable k-mer in a string.
+  def profileMostProbable(text: String, k: Int, profile: Array[Array[Double]]): String = {
+    val probs = text.sliding(k).map(patternProbability(_, profile))
+    text.sliding(k).zip(probs).maxBy(_._2)._1
   }
 
   override def solve(reader: Iterator[String]): Any = {
-    val i = reader.nextLongArray(0)
+    val text = reader.trimmedLine
     val k = reader.nextInt
-    unhash(i, k)
+    val profile = reader.nextDoubleGrid(4)
+    profileMostProbable(text, k, profile)
   }
 }

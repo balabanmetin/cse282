@@ -1,7 +1,7 @@
 package tasks
 
 import tasks.Task11._
-import tasks.Task7._
+import tasks.Task21._
 import tools.Solver
 
 object Task15
@@ -11,7 +11,7 @@ object Task15
 
   def medianString(dna: List[String], k:Int): String = {
     val kmers = allkmers(k)
-    val scores = kmers.map(kmer => dna.map(s => s.sliding(k).map(hamming(_,kmer)).min).sum)
+    val scores = kmers.map(distanceBetweenPatternAndStrings(_,dna))
     kmers.zip(scores).minBy(_._2)._1
   }
   override def solve(reader: Iterator[String]): Any = {

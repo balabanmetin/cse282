@@ -13,25 +13,25 @@ object Task20 extends Solver {
   import Solver._
 
   def profileRandomlyKmer(profile: Array[Array[Double]], text: String, k: Int): String = {
-    val probDist = text.sliding(k).map(kmer => kmer.zipWithIndex.map(p => profile(nucToNum(p._1))(p._2)).product)
+    val probDist = text.sliding(k).toList.map(kmer => kmer.zipWithIndex.map(p => profile(nucToNum(p._1))(p._2)).product)
     if(probDist.sum == 0)
       text.sliding(k).next()
     else {
       val rand = Random.nextDouble * probDist.sum
-      val cdf = probDist.scanLeft(0.0)(_ + _)
-      val zppd = text.sliding(k).zip(cdf).toArray
+      val cdf = probDist.scanLeft(0.0)(_ + _).tail
+      val zppd = text.sliding(k).toList.zip(cdf).toArray
       zppd.find(_._2 > rand).map(_._1).getOrElse(zppd.last._1)
     }
   }
 
   def gibbsSampler(dna: Array[String], k: Int, t: Int, N: Int): Array[String] = {
     val initMotif = dna.map(text => Random.shuffle(text.sliding(k).toList).head)
-    val trials = for (j <- 0 until N) yield {
+    val trials = (0 until N).scanLeft(initMotif){ case (motif, j) =>
       val i = Random.nextInt(t)
-      val profile = formProfileWithPrior(initMotif.take(i) ++ initMotif.drop(i + 1))
-      initMotif.take(i) ++ Array(profileRandomlyKmer(profile, dna(i), k)) ++ initMotif.drop(i + 1)
+      val profile = formProfileWithPrior(motif.take(i) ++ motif.drop(i + 1))
+      motif.take(i) ++ Array(profileRandomlyKmer(profile, dna(i), k)) ++ motif.drop(i + 1)
     }
-    (initMotif +: trials.toList).minBy(score)
+    trials.minBy(score)
   }
 
   override def solve(reader: Iterator[String]): Any = {

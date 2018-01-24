@@ -9,11 +9,10 @@ object Task18 extends Solver {
   import Solver._
 
 
-  def formProfileWithPrior(motif: Array[String]): Array[Array[Double]] = {
-    val trans = motif.map(_.toList).toList.transpose // ["ABC","DEF"] -> ["AD","BE","CF"]
-    val nucProf = trans.map(_.groupBy(identity).mapValues(_.length))
-    val transposedProf = nucProf.map(prof => List('A', 'C', 'G', 'T').map(c => (1.0 + prof.getOrElse(c, 0) * 1.0) / (motif.length + 4)))
-    transposedProf.transpose.map(_.toArray).toArray
+  override def solve(reader: Iterator[String]): Any = {
+    val Array(k, t) = reader.nextIntArray
+    val dna = reader.map(_.trim).toArray
+    greedyMotifSearchWithPrior(dna, k, t).mkString("\n")
   }
 
   def greedyMotifSearchWithPrior(dna: Array[String], k: Int, t: Int): Array[String] = {
@@ -25,9 +24,11 @@ object Task18 extends Solver {
     allMotifsFound.minBy(score)
   }
 
-  override def solve(reader: Iterator[String]): Any = {
-    val Array(k, t) = reader.nextIntArray
-    val dna = reader.map(_.trim).toArray
-    greedyMotifSearchWithPrior(dna, k, t).mkString("\n")
+  def formProfileWithPrior(motif: Array[String]): Array[Array[Double]] = {
+    val trans = motif.map(_.toList).toList.transpose
+    // ["ABC","DEF"] -> ["AD","BE","CF"]
+    val nucProf = trans.map(_.groupBy(identity).mapValues(_.length))
+    val transposedProf = nucProf.map(prof => List('A', 'C', 'G', 'T').map(c => (1.0 + prof.getOrElse(c, 0) * 1.0) / (motif.length + 4)))
+    transposedProf.transpose.map(_.toArray).toArray
   }
 }

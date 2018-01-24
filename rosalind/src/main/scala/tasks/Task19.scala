@@ -4,6 +4,7 @@ import tasks.Task16._
 import tasks.Task17._
 import tasks.Task18._
 import tools.Solver
+
 import scala.util.Random
 
 

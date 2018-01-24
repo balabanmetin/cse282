@@ -8,13 +8,13 @@ object Task21
 
   import Solver._
 
-  def distanceBetweenPatternAndStrings(kmer: String, dna: List[String]): Int = {
-    dna.map(s => s.sliding(kmer.length).map(hamming(_, kmer)).min).sum
-  }
-
   override def solve(reader: Iterator[String]): Any = {
     val kmer = reader.trimmedLine
     val dna = reader.nextStringArray.toList
     distanceBetweenPatternAndStrings(kmer, dna)
+  }
+
+  def distanceBetweenPatternAndStrings(kmer: String, dna: List[String]): Int = {
+    dna.map(s => s.sliding(kmer.length).map(hamming(_, kmer)).min).sum
   }
 }

@@ -1,12 +1,18 @@
 package tasks
 
+import tasks.Task3._
+import tasks.Task9._
 import tools.Solver
-import Task9._
-import Task3._
 
 object Task10 extends Solver {
 
   import Solver._
+
+  override def solve(reader: Iterator[String]): Any = {
+    val seq = reader.trimmedLine
+    val Array(k, dist) = reader.nextIntArray
+    mostFrequentWithMismatchesAndReverse(seq, k, dist).mkString(" ")
+  }
 
   def mostFrequentWithMismatchesAndReverse(seq: String, k: Int, d: Int): List[String] = {
 
@@ -17,11 +23,5 @@ object Task10 extends Solver {
     val mergedCounts = (straightCounts ++ reverseCounts).groupBy(_._1).mapValues(_.map(_._2).sum)
     val maximum = mergedCounts.maxBy(_._2)
     mergedCounts.filter(_._2 == maximum._2).keys.toList
-  }
-
-  override def solve(reader: Iterator[String]): Any = {
-    val seq = reader.trimmedLine
-    val Array(k, dist) = reader.nextIntArray
-    mostFrequentWithMismatchesAndReverse(seq, k, dist).mkString(" ")
   }
 }

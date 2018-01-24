@@ -1,7 +1,7 @@
 package tasks
 
+import tasks.Task9._
 import tools.Solver
-import Task9._
 
 object Task13 extends Solver {
 

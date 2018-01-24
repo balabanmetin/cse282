@@ -1,7 +1,8 @@
 package tools
 
-import scala.io.Source
 import java.io.{File, FileWriter}
+
+import scala.io.Source
 import scala.math._
 
 
@@ -48,6 +49,9 @@ object Solver {
     def nextIntGrid(y: Int): Array[Array[Int]] = (for (i <- 0 until y) yield nextIntArray).toArray
     def nextDoubleGrid(y: Int): Array[Array[Double]] = (for (i <- 0 until y) yield nextDoubleArray).toArray
     def nextCharGrid(y: Int): Array[Array[Char]] = (for (i <- 0 until y) yield nextCharArray).toArray
+    def nextGraph: Map[String, List[String]] = {
+      iterator.map(_.trim).map(_.split(" -> ")).map(pair => (pair(0), pair(1).split(",").toList)).toMap
+    }
 
     def skipLines(nr: Int) {
       for (i <- 1 to nr) {

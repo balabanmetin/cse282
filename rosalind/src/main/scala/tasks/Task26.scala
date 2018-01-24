@@ -12,11 +12,15 @@ object Task26 extends Solver {
     printGraph(debruijn(seq, k-1))
   }
 
-  // Generate the k-mer composition of a string.
+  // Construct the de Bruijn graph of a string.
   def debruijn(seq: String, k: Int): Map[String, List[String]] = {
     val composition = seq.sliding(k).zip(seq.sliding(k).drop(1)).toList
-    composition.groupBy(_._1).mapValues(_.map(_._2))
+    glue(composition)
   }
+
+  def glue(composition: List[(String, String)]): Map[String, List[String]] =
+    composition.groupBy(_._1).mapValues(_.map(_._2))
+
 
   def printGraph(graph: Map[String, List[String]]): String = {
     graph.mapValues(_.mkString(",")).map{ case (x,y) => x ++ " -> " ++ y}.mkString(" \n")

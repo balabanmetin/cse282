@@ -9,7 +9,7 @@ object Task25 extends Solver {
     overlapGraph(dna).sorted.map { case (x, y) => x ++ " -> " ++ y }.mkString("\n")
   }
 
-  // Generate the k-mer composition of a string.
+  // Construct the overlap graph of a collection of k-mers.
   def overlapGraph(dna: List[String]): List[(String, String)] = {
     val pairs = for (x <- dna; y <- dna) yield (x, y)
     pairs.filter { case (x, y) =>

@@ -21,7 +21,7 @@ object Task28 extends Solver {
   // helper
   def _eulerian(current: String, view: View): View= {
     var curView = view
-    while(curView.graph(current) != List.empty)
+    while(curView.graph.get(current).exists(_ != List.empty))
       curView = _eulerian(curView.graph(current).head,
                           View(curView.graph + (current -> curView.graph(current).tail), curView.path))
     View(curView.graph, current +: curView.path)

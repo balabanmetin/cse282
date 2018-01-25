@@ -16,7 +16,7 @@ object Task15
   }
 
   def medianString(dna: List[String], k: Int): String = {
-    val kmers = allkmers(k)
+    val kmers = allkmers(k, List("A", "C", "G", "T"))
     val scores = kmers.map(distanceBetweenPatternAndStrings(_, dna))
     kmers.zip(scores).minBy(_._2)._1
   }

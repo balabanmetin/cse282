@@ -26,7 +26,8 @@ object Task35 extends Solver {
   }
 
   def extractPath(graph: Map[String, List[String]], source: String, parent: String, current: String): List[String] = {
-    val tail = if (graph.get(current).exists(_.length == 1) && source != current)
+    val is1in1out = graph.get(current).exists(_.length == 1) && graph.count(_._2.contains(current)) == 1
+    val tail = if (is1in1out && source != current)
       extractPath(graph, source, current, graph(current).head) else List(current)
     parent +: tail
   }

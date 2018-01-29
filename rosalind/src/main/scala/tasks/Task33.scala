@@ -9,7 +9,7 @@ object Task33 extends Solver {
 
   override def solve(reader: Iterator[String]): Any = {
     val kmers = reader.map(_.trim).toList
-    generateContigs(kmers).mkString("\n")
+    generateContigs(kmers).sorted.mkString("\n")
   }
 
   def generateContigs(kmers: List[String]): List[String] = {

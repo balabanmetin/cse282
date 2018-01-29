@@ -10,7 +10,7 @@ object Task27 extends Solver {
     printGraph(debruijnFromKmers(dna))
   }
 
-  // Generate the k-mer composition of a string.
+  // Construct the de Bruijn graph from a collection of k-mers.
   def debruijnFromKmers(kmers: List[String]): Map[String, List[String]] = {
     val composition = kmers.map(kmer => (kmer.reverse.tail.reverse, kmer.tail))
     glue(composition)

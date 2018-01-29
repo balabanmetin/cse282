@@ -1,6 +1,7 @@
 package tasks
 
 import tools.Solver
+import scala.util.Random
 
 object Task26 extends Solver {
 
@@ -19,7 +20,7 @@ object Task26 extends Solver {
   }
 
   def glue(composition: List[(String, String)]): Map[String, List[String]] =
-    composition.groupBy(_._1).mapValues(_.map(_._2))
+    composition.groupBy(_._1).mapValues(pairs => Random.shuffle(pairs.map(_._2)))
 
 
   def printGraph(graph: Map[String, List[String]]): String = {

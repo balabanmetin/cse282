@@ -62,8 +62,8 @@ object Task41 extends Solver {
       }
     }
 
-    val alignment: (List[Char], List[Char]) = backTrack(seq1.toList, seq2.toList, dp)
-    Alignment(opt, alignment._1.mkString(""), alignment._2.mkString(""))
+    val alignment: (List[Char], List[Char]) = backTrack(seq1.toList.reverse, seq2.toList.reverse, dp)
+    Alignment(opt, alignment._1.reverse.mkString(""), alignment._2.reverse.mkString(""))
   }
 
 }

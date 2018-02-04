@@ -14,18 +14,16 @@ object Task40 extends Solver {
 
   // Find the edit distance between two strings.
   def editDistance(seq1: String, seq2: String): Int = {
-    type Input = (List[Char], List[Char])
-    type Cache = (Int, Int)
-    type Output = Int
-    type DP = Memo[Input, Cache, Output]
-    implicit def ev(key: Input): Cache = (key._1.length, key._2.length)
-
-    lazy val f: DP = Memo {
-      case (a, Nil) => a.length
-      case (Nil, b) => b.length
-      case (a :: as, b :: bs) if a == b => f(as, bs)
-      case (a, b) => List(f(a, b.tail), f(a.tail, b), f(a.tail, b.tail)).min + 1
-    }
-    f(seq1.toList, seq2.toList)
+    val dp: Array[Array[Int]] = Array.ofDim[Int](seq1.length + 1, seq2.length + 1)
+    for(i <- seq1.indices)
+      dp(i)(0) = i
+    for(i <- seq2.indices)
+      dp(0)(i) = i
+    for(i <- 1 to seq1.length)
+      for (j <- 1 to seq2.length)
+        dp(i)(j) = List(dp(i)(j - 1) + 1,
+          dp(i - 1)(j) + 1,
+          dp(i - 1)(j - 1) + (if (seq1(i - 1) == seq2(j - 1)) 0 else 1)).min
+    dp(seq1.length)(seq2.length)
   }
 }

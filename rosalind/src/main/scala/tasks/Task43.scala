@@ -4,19 +4,19 @@ import tools.Solver
 import tasks.Task41.Alignment
 
 
-object Task44 extends Solver {
+object Task43 extends Solver {
 
   import Solver._
 
   override def solve(reader: Iterator[String]): Any = {
     val seq1 = reader.trimmedLine
     val seq2 = reader.trimmedLine
-    val alignment = overlapAlign(seq1, seq2, +1, -2, -2)
+    val alignment = fittingAlign(seq1, seq2, +1, -1, -1)
     alignment.score.toString ++ "\n" ++ alignment.seq1 ++ "\n" ++ alignment.seq2
   }
 
-  // Construct a highest-scoring overlap alignment between two strings.
-  def overlapAlign(seq1: String, seq2: String, matches: Int, mismatches: Int, indels: Int): Alignment = {
+  // Construct a highest-scoring fitting alignment between two strings.
+  def fittingAlign(seq1: String, seq2: String, matches: Int, mismatches: Int, indels: Int): Alignment = {
     val dp: Array[Array[Int]] = Array.ofDim[Int](seq1.length + 1, seq2.length + 1)
     for(i <- seq1.indices)
       dp(i)(0) = 0
@@ -28,8 +28,8 @@ object Task44 extends Solver {
                         dp(i - 1)(j) + indels,
                         dp(i - 1)(j - 1) + (if(seq1(i - 1) == seq2(j - 1)) matches else mismatches)).max
 
-    val opt = dp(seq1.length).max
-    val sink = (0 to seq2.length).maxBy(dp(seq1.length)(_))
+    val opt = dp.map(r => r(seq2.length)).max
+    val sink = (0 to seq1.length).maxBy(dp(_)(seq2.length))
 
 
     def prepend(chars: (Char, Char), seqs: (List[Char], List[Char])): (List[Char], List[Char]) =
@@ -49,7 +49,7 @@ object Task44 extends Solver {
       }
     }
 
-    val alignment: (List[Char], List[Char]) = backTrack(seq1.toList.reverse, seq2.toList.take(sink).reverse, dp)
+    val alignment: (List[Char], List[Char]) = backTrack(seq1.toList.take(sink).reverse, seq2.toList.reverse, dp)
     Alignment(opt, alignment._1.reverse.mkString(""), alignment._2.reverse.mkString(""))
   }
 

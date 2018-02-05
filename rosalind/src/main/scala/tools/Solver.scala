@@ -53,7 +53,11 @@ object Solver {
       iterator.map(_.trim).map(_.split(" -> ")).map(pair => (pair(0), pair(1).split(",").toList)).toMap
     }
     def nextGraphDS: Graph = {
-      Graph.fromOut(nextGraph)
+      val g = nextGraph
+      val nodes = (g.keys ++ g.values.flatten).toList.distinct
+      val out = nodes.map(n => (n, g.getOrElse(n, List()))).toMap
+      val in  = nodes.map(n => (n, out.filter(_._2.contains(n)).keys.toList)).toMap
+      Graph(in, out)
     }
 
     def skipLines(nr: Int) {

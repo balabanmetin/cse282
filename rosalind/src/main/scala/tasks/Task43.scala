@@ -31,7 +31,6 @@ object Task43 extends Solver {
     val opt = dp.map(r => r(seq2.length)).max
     val sink = (0 to seq1.length).maxBy(dp(_)(seq2.length))
 
-
     def prepend(chars: (Char, Char), seqs: (List[Char], List[Char])): (List[Char], List[Char]) =
       (chars._1 :: seqs._1, chars._2 :: seqs._2)
 

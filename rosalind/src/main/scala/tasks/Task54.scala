@@ -2,7 +2,6 @@ package tasks
 
 import tools.Solver
 import tasks.Task3._
-import tasks.Task12._
 
 
 object Task54 extends Solver {
@@ -16,9 +15,9 @@ object Task54 extends Solver {
     sharedKmers(k, seq1, seq2).mkString("\n")
   }
 
-  def hashMapKmers(k: Int, seq: String): Map[Long, List[Int]] = {
+  def hashMapKmers(k: Int, seq: String): Map[String, List[Int]] = {
     val kmers1 = seq.sliding(k).zipWithIndex
-    kmers1.map{case(km, i) => (hash(km),i)}.toList.groupBy{case (h, i) => h}.mapValues(_.map(_._2))
+    kmers1.toList.groupBy{case (h, i) => h}.mapValues(_.map(_._2))
   }
 
   // Given two strings, find all their shared k-mers.
@@ -27,6 +26,7 @@ object Task54 extends Solver {
     val map1 = hashMapKmers(k, seq1)
     map2.keys.collect{
       case key if map1.contains(key) => for(i <- map1(key); j <- map2(key)) yield (i, j)
+      case key if map1.contains(reverseComplement(key)) => for(i <- map1(reverseComplement(key)); j <- map2(key)) yield (i, j)
     }.flatten.toList
   }
 }

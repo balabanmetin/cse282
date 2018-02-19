@@ -5,8 +5,6 @@ import tasks.Task50._
 
 object Task51 extends Solver {
 
-  import Solver._
-
   override def solve(reader: Iterator[String]): Any = {
     val chr = readChromosome(reader)
     countBreakpoints(chr)

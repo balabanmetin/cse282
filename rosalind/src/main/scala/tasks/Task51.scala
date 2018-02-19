@@ -13,6 +13,7 @@ object Task51 extends Solver {
   }
 
   def countBreakpoints(chr: Array[Int]): Int = {
-    chr.length - chr.sliding(2).count(p => p(0) == p(1) - 1)
+    val extchr = Array(0) ++ chr ++ Array(chr.length + 1)
+    extchr.length - extchr.sliding(2).count(p => p(0) == p(1) - 1) - 1
   }
 }

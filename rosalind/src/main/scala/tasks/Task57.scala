@@ -18,7 +18,6 @@ object Task57 extends Solver {
 
   // Find the Colored Edges in a genome.
   def coloredEdges(dna: Array[Array[Int]]): Array[(Int,Int)] = {
-    val circdna = dna.map(makeCircular)
-    circdna.flatMap(chr => colored(chromosomeToCycle(chr)))
+    dna.map(makeCircular).flatMap(chr => colored(chromosomeToCycle(chr)))
   }
 }

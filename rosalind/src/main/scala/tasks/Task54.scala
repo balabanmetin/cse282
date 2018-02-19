@@ -12,7 +12,7 @@ object Task54 extends Solver {
     val k = reader.nextInt
     val seq1 = reader.trimmedLine
     val seq2 = reader.trimmedLine
-    sharedKmers(k, seq1, seq2).mkString("\n")
+    sharedKmers(k, seq1, seq2).map(p => s"(${p._1}, ${p._2})").mkString("\n")
   }
 
   def hashMapKmers(k: Int, seq: String): Map[String, List[Int]] = {

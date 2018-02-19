@@ -12,18 +12,20 @@ object Task42 extends Solver {
   override def solve(reader: Iterator[String]): Any = {
     val seq1 = reader.trimmedLine
     val seq2 = reader.trimmedLine
+    val alignment = localAlign(seq1, seq2, readScoringMap)
+    alignment.score.toString ++ "\n" ++ alignment.seq1 ++ "\n" ++ alignment.seq2
+  }
+
+  def readScoringMap: Map[Char, Map[Char, Int]] = {
     val scoringIt: Iterator[String] = Source.fromResource("scoring.txt").getLines()
     val keys = scoringIt.nextStringArray.map(_.head)
-    val scoringMap = (for (i <- keys.indices) yield {
+    (for (i <- keys.indices) yield {
       val line = scoringIt.nextStringArray
       val key = line.head.head
       val value = keys.zip(line.tail.map(_.toInt)).toMap
       key -> value
     }).toMap
-    val alignment = localAlign(seq1, seq2, scoringMap)
-    alignment.score.toString ++ "\n" ++ alignment.seq1 ++ "\n" ++ alignment.seq2
   }
-
 
   // Find the highest-scoring local alignment between two strings.
   def localAlign(seq1: String, seq2: String,

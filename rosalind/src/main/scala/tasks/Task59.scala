@@ -24,10 +24,8 @@ object Task59 extends Solver {
   // Solve the 2-Break On Genome Graph Problem.
   def singleDCJop(graph: List[(Int,Int)], i1: Int, i2: Int, j1: Int, j2: Int): List[(Int, Int)] = {
     graph.map{
-      case (a, b) if a == j2 => (i2, b)
-      case (a, b) if a == i2 => (j2, b)
-      case (a, b) if b == j2 => (a, i2)
-      case (a, b) if b == i2 => (a, j2)
+      case (a, b) if a == i1 && b == i2 => (i1, j1)
+      case (a, b) if a == j1 && b == j2 => (i2, j2)
       case (a, b) => (a, b)
     }
   }

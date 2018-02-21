@@ -1,8 +1,5 @@
 package tasks
 
-import tasks.Task55._
-import tasks.Task57._
-import scala.util.matching._
 import tools.Solver
 
 object Task59 extends Solver {

@@ -19,10 +19,13 @@ object Task58 extends Solver {
 
   def _graphToGenome(graph: Set[(Int, Int)], currentEdge: (Int, Int), currentChr: List[Int]): List[Array[Int]] = {
     val next = graph.filter{case (i,j) => i == currentEdge._2 + (if (currentEdge._2 % 2 == 0) -1 else 1)} // i.e. 4 => 3, 3 => 4
+    val next2 = graph.filter{case (i,j) => j == currentEdge._2 + (if (currentEdge._2 % 2 == 0) -1 else 1)}
     val sign = if (currentEdge._1 % 2 == 0) 1 else -1
     val newChr = sign * (currentEdge._1 + 1) / 2 :: currentChr
     if (next.nonEmpty) {
       _graphToGenome(graph - next.head, next.head, newChr)
+    } else if(next2.nonEmpty) {
+      _graphToGenome(graph - next2.head, next2.head.swap, newChr)
     } else {
       if (graph.isEmpty) {
         List(newChr.reverse.toArray)

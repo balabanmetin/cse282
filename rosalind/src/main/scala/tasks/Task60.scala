@@ -18,6 +18,6 @@ object Task60 extends Solver {
     val colored = coloredEdges(Array(chr))
     // val black = blackEdges(Array(chr))
     val afterdcj = singleDCJop(colored.toList, i1, i2, j1, j2)
-    graphToGenome(afterdcj).map(chromosomeToString).mkString("")
+    graphToGenome(afterdcj).map(chromosomeToString).mkString(" ")
   }
 }

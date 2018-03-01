@@ -57,6 +57,12 @@ private[tools] class TrieNode(val char : Option[Char] = None, var word: Option[S
     helper(0, this)
   }
 
-  override def toString() : String = s"Trie(char=${char},word=${word})"
+  override def toString() : String = {
+    def helper(currentIndex: Int, node: TrieNode): Iterable[String]= {
+      val adj = node.children.zipWithIndex.map { case ((c, _), i) => s"$currentIndex->${currentIndex + i + 1}:$c" }
+      adj ++ node.children.zipWithIndex.flatMap{ case ((_, next), i) => helper(currentIndex + i + 1, next) }
+    }
+    helper(0, this).mkString("\n")
+  }
 
 }

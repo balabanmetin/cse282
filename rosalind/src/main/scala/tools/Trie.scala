@@ -1,0 +1,62 @@
+package tools
+
+import scala.annotation.tailrec
+import scala.collection.mutable
+
+/**
+  * Created by metin on 2/2/18.
+  */
+object Trie {
+  def apply() : Trie = new TrieNode()
+}
+
+sealed trait Trie {
+
+  def append(key : String)
+  def prefixTreeMatching(prefix: String): Boolean
+
+}
+
+private[tools] class TrieNode(val char : Option[Char] = None, var word: Option[String] = None) extends Trie {
+
+  private[tools] val children: mutable.Map[Char, TrieNode] = new mutable.TreeMap[Char, TrieNode]()
+
+  override def append(key: String): Unit = {
+
+    @tailrec def appendHelper(node: TrieNode, currentIndex: Int): Unit = {
+      if (currentIndex == key.length) {
+        node.word = Some(key)
+      } else {
+        val char = key.charAt(currentIndex)
+        val result = node.children.getOrElseUpdate(char, {
+          new TrieNode(Some(char))
+        })
+
+        appendHelper(result, currentIndex + 1)
+      }
+    }
+
+    appendHelper(this, 0)
+  }
+
+  override def prefixTreeMatching(prefix: String): Boolean = {
+
+    @tailrec def helper(currentIndex: Int, node: TrieNode): Boolean = {
+      if (node.word.isDefined) {
+        true
+      } else if (currentIndex == prefix.length) {
+        false
+      } else {
+        node.children.get(prefix.charAt(currentIndex)) match {
+          case Some(child) => helper(currentIndex + 1, child)
+          case None => false
+        }
+      }
+    }
+
+    helper(0, this)
+  }
+
+  override def toString() : String = s"Trie(char=${char},word=${word})"
+
+}

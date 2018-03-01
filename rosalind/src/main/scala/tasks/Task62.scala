@@ -1,6 +1,6 @@
 package tasks
 
-import tools.{Solver, Trie}
+import tools.{PrefixTrie, Solver}
 
 object Task62 extends Solver {
 
@@ -8,7 +8,7 @@ object Task62 extends Solver {
 
   override def solve(reader: Iterator[String]): Any = {
     val seqs = reader.map(_.trim).toList
-    val trie = Trie()
+    val trie = PrefixTrie()
     seqs.foreach(trie.append)
     trie.toString
   }

@@ -140,6 +140,7 @@ private[tools] class TrieNode(val char : Option[Char] = None,
     helper("", text, this)
   }
 
+
   override def toString() : String = {
 
     def helper(currentIndex: Int, node: TrieNode): Iterable[String] = {
@@ -149,5 +150,6 @@ private[tools] class TrieNode(val char : Option[Char] = None,
 
     helper(0, this).mkString("\n")
   }
+
 
 }

@@ -18,6 +18,7 @@ sealed trait Trie {
   def longestRepeat(): String
   def setColor()
   def longestShared(): String
+  def shortestNonshared(text: String): String
 }
 
 private[tools] class TrieNode(val char : Option[Char] = None,
@@ -79,6 +80,7 @@ private[tools] class TrieNode(val char : Option[Char] = None,
     helper("", this).tail
   }
 
+  // Find the longest repeat in a string.
   override def longestRepeat(): String = {
 
     def helper(path: String, longest: String, node:TrieNode): String = {
@@ -111,6 +113,7 @@ private[tools] class TrieNode(val char : Option[Char] = None,
     helper(this)
   }
 
+  // Find the longest substring shared by two strings.
   override def longestShared(): String = {
     this.setColor()
 
@@ -125,6 +128,17 @@ private[tools] class TrieNode(val char : Option[Char] = None,
     helper("", "", this)
   }
 
+  override def shortestNonshared(text: String): String = {
+    this.setColor()
+
+    def helper(path: String, shortest: String, node:TrieNode): String = {
+      if(path.length < shortest.length && node.children.size > 1 && node.color == 1)
+        path
+      else node.children.foldLeft(shortest){case (lng,(chr, n)) => helper(path+chr, lng, n)}
+    }
+
+    helper("", text, this)
+  }
 
   override def toString() : String = {
 

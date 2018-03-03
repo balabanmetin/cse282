@@ -15,6 +15,7 @@ sealed trait Trie {
   def append(key : String)
   def prefixTreeMatching(prefix: String): Boolean
   def nonBranchingPaths(): List[String]
+  def longestRepeat(): String
 
 }
 
@@ -75,6 +76,21 @@ private[tools] class TrieNode(val char : Option[Char] = None, var word: Option[S
     helper("", this).tail
   }
 
+  override def longestRepeat(): String = {
+
+    def helper(path: String, longest: String, node:TrieNode): String = {
+      val newLong =
+        if(path.length > longest.length && node.children.size > 1)
+          path
+        else
+          longest
+      node.children.foldLeft(newLong){case (lng,(chr, n)) =>
+        helper(path+chr, lng, n)
+      }
+    }
+
+    helper("", "", this)
+  }
 
   override def toString() : String = {
 

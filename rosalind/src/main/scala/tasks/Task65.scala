@@ -10,6 +10,6 @@ object Task65 extends Solver {
     val text1 = reader.trimmedLine
     val text2 = reader.trimmedLine
     val trie = SuffixTrie(text1+"#"+text2+"$")
-    trie.longestRepeat()
+    trie.longestShared()
   }
 }

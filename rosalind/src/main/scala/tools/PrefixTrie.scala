@@ -16,10 +16,13 @@ sealed trait Trie {
   def prefixTreeMatching(prefix: String): Boolean
   def nonBranchingPaths(): List[String]
   def longestRepeat(): String
-
+  def setColor()
+  def longestShared(): String
 }
 
-private[tools] class TrieNode(val char : Option[Char] = None, var word: Option[String] = None) extends Trie {
+private[tools] class TrieNode(val char : Option[Char] = None,
+                              var word: Option[String] = None,
+                              var color: Int = 0) extends Trie {
 
   private[tools] val children: mutable.Map[Char, TrieNode] = new mutable.TreeMap[Char, TrieNode]()
 
@@ -80,10 +83,7 @@ private[tools] class TrieNode(val char : Option[Char] = None, var word: Option[S
 
     def helper(path: String, longest: String, node:TrieNode): String = {
       val newLong =
-        if(path.length > longest.length && node.children.size > 1)
-          path
-        else
-          longest
+        if(path.length > longest.length && node.children.size > 1) path else longest
       node.children.foldLeft(newLong){case (lng,(chr, n)) =>
         helper(path+chr, lng, n)
       }
@@ -91,6 +91,40 @@ private[tools] class TrieNode(val char : Option[Char] = None, var word: Option[S
 
     helper("", "", this)
   }
+
+  override def setColor(): Unit = {
+
+    def helper(node: TrieNode): Unit = {
+      if (node.children.isEmpty){
+        if (node.word.get.contains("#")) node.color = 1 else node.color = 2
+      } else {
+        node.children.values.foreach(helper)
+        if (node.children.values.forall(_.color == 1))
+          node.color = 1
+        else if (node.children.values.forall(_.color == 2))
+          node.color = 2
+        else
+          node.color = 3
+      }
+    }
+
+    helper(this)
+  }
+
+  override def longestShared(): String = {
+    this.setColor()
+
+    def helper(path: String, longest: String, node:TrieNode): String = {
+      val newLong =
+        if(path.length > longest.length && node.children.size > 1 && node.color == 3) path else longest
+      node.children.foldLeft(newLong){case (lng,(chr, n)) =>
+        helper(path+chr, lng, n)
+      }
+    }
+
+    helper("", "", this)
+  }
+
 
   override def toString() : String = {
 

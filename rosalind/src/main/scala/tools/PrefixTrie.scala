@@ -143,12 +143,18 @@ private[tools] class TrieNode(val char : Option[Char] = None,
 
   override def toString() : String = {
 
-    def helper(currentIndex: Int, node: TrieNode): Iterable[String] = {
-      val adj = node.children.zipWithIndex.map { case ((c, _), i) => s"$currentIndex->${currentIndex + i + 1}:$c" }
-      adj ++ node.children.zipWithIndex.flatMap{ case ((_, next), i) => helper(currentIndex + i + 1, next) }
+    def helpa(currentIndex: Int, node: TrieNode): List[String] = {
+      var ind = currentIndex
+      node.children.flatMap{case (key, value) =>
+        val head = s"$currentIndex->${ind + 1}:$key"
+        ind = ind + 1
+        val rec = helpa(ind, value)
+        ind = ind + rec.length
+        head :: rec
+      }.toList
     }
 
-    helper(0, this).mkString("\n")
+    helpa(0, this).mkString("\n")
   }
 
 

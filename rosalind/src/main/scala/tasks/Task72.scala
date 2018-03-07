@@ -15,23 +15,9 @@ object Task72 extends Solver {
   }
 
   def betterBWTMatching(text: String, pattern: String, LF: (Char, Int) => Int): Int = {
-    var revpat = pattern.reverse
-    var top = 0
-    var bottom = text.length - 1
-    while (top <= bottom){
-      if(!revpat.isEmpty){
-        val c = revpat.head
-        revpat = revpat.tail
-        if (text.substring(top, bottom + 1).contains(c)){
-          top = LF(c, top)
-          bottom = LF(c, bottom + 1) - 1
-        } else {
-          return 0
-        }
-      } else {
-        return bottom - top + 1
-      }
+    val (top, bottom) = pattern.reverse.foldLeft((0, text.length - 1)) { case ((t, b), c) =>
+      if (text.substring(t, b + 1).contains(c)) (LF(c, t), LF(c, b + 1) - 1) else (0, -1)
     }
-    -1
+    bottom - top + 1
   }
 }

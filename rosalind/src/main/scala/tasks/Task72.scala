@@ -1,6 +1,7 @@
 package tasks
 
 import tools.Solver
+import tasks.Task71._
 
 object Task72 extends Solver {
 
@@ -9,20 +10,11 @@ object Task72 extends Solver {
   override def solve(reader: Iterator[String]): Any = {
     val text = reader.trimmedLine
     val patterns = reader.trimmedLine.split(" ")
-    val count = (c: Char) => text.sorted.zipWithIndex.reverse.toMap.getOrElse(c, -1)
-    val occurence = (c: Char, i: Int ) => {
-      val seq = text.scanLeft(text.map(chr => chr -> 0).toMap) { case (occ, chr) =>
-        occ + (chr -> (occ.getOrElse(chr, 0) + 1))
-      }
-      seq(i).getOrElse(c, -1)
-    }
-    patterns.map(pattern => betterBWTMatching(occurence, text, pattern, count)).mkString(" ")
+    val LF = lastToFirst(text)
+    patterns.map(pattern => betterBWTMatching(text, pattern, LF)).mkString(" ")
   }
 
-  def betterBWTMatching(occurence: (Char, Int) => Int,
-                        text: String,
-                        pattern: String,
-                        count: Char => Int): Int = {
+  def betterBWTMatching(text: String, pattern: String, LF: (Char, Int) => Int): Int = {
     var revpat = pattern.reverse
     var top = 0
     var bottom = text.length - 1
@@ -31,8 +23,8 @@ object Task72 extends Solver {
         val c = revpat.head
         revpat = revpat.tail
         if (text.substring(top, bottom + 1).contains(c)){
-          top = count(c) + occurence(c, top)
-          bottom = count(c) + occurence(c, bottom + 1) - 1
+          top = LF(c, top)
+          bottom = LF(c, bottom + 1) - 1
         } else {
           return 0
         }
